@@ -8,7 +8,4 @@ dist
 # Python specific stuff
 *.pyc
 
-# Local install information created by pip -e
-jass.egg-info
-jass_kit.egg-info
 

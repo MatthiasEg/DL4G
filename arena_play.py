@@ -25,6 +25,7 @@ def main():
 
     arena.set_players(my_player, player, my_player, player)
     arena.nr_games_to_play = 1000
+    print('Playing {} games'.format(arena.nr_games_to_play))
     arena.play_all_games()
     total_games = arena.nr_wins_team_0 + arena.nr_wins_team_1 + arena.nr_draws
     print('Wins Team 0: {} ({:.2f}%)'.format(arena.nr_wins_team_0, arena.nr_wins_team_0 / total_games))
