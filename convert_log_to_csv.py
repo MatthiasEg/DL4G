@@ -35,8 +35,10 @@ def main():
         basename = os.path.basename(f)
         basename, _ = os.path.splitext(basename)
         filename = basename + '.csv'
+        filename = os.path.join(arg.output_dir, filename)
 
         with open(filename, mode='w', newline='') as file:
+            print('Processing file: {}'.format(f))
             csv_writer = csv.writer(file)
             for rnd in rounds:
                 # get the player view for making trump
