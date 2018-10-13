@@ -8,7 +8,7 @@ import os
 import csv
 import argparse
 
-from jass.base.const import PUSH
+from jass.base.const import PUSH, PUSH_ALT, next_player, partner_player
 from jass.base.player_round import PlayerRound
 from jass.io.log_parser import LogParser
 
@@ -28,8 +28,8 @@ def main():
     actions = 0
     for f in arg.files:
         parser = LogParser(f)
-        rounds = parser.parse_rounds()
-        total_number_of_rounds += len(rounds)
+        rounds_players = parser.parse_rounds_and_players()
+        total_number_of_rounds += len(rounds_players)
 
         # open a file for each input file and write it to the output directory
         basename = os.path.basename(f)
@@ -40,15 +40,20 @@ def main():
         with open(filename, mode='w', newline='') as file:
             print('Processing file: {}'.format(f))
             csv_writer = csv.writer(file)
-            for rnd in rounds:
+            for rnd_players in rounds_players:
                 # get the player view for making trump
+                rnd = rnd_players['round']
+                players = rnd_players['players']
                 if not rnd.forehand:
                     # was not declared forehand, so add a entry for push
                     player_rnd = PlayerRound.trump_from_complete_round(rnd, forehand=True)
                     entry = player_rnd.hand.tolist()
                     # add a boolean (1) for forehand
                     entry.append(1)
-                    entry.append(PUSH)
+                    player_declared = next_player[player_rnd.dealer]
+                    entry.append(players[player_declared])
+                    entry.append(PUSH_ALT)
+
                     csv_writer.writerow(entry)
                     actions += 1
                     _print_progress(actions)
@@ -58,6 +63,8 @@ def main():
                     entry = player_rnd.hand.tolist()
                     # add a boolean (0) for rearhand
                     entry.append(0)
+                    player_declared = partner_player[next_player[player_rnd.dealer]]
+                    entry.append(players[player_declared])
                     entry.append(rnd.trump)
                     csv_writer.writerow(entry)
                     actions += 1
@@ -68,6 +75,8 @@ def main():
                     entry = player_rnd.hand.tolist()
                     # add a boolean (0) for rearhand
                     entry.append(1)
+                    player_declared = next_player[player_rnd.dealer]
+                    entry.append(players[player_declared])
                     entry.append(rnd.trump)
                     csv_writer.writerow(entry)
                     actions += 1

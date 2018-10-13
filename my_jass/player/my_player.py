@@ -25,6 +25,9 @@ class MyPlayer(Player):
             selected trump
         """
         # select the trump with the largest number of cards
+        print(rnd.hand)
+        print(rnd.hand.shape)
+
         trump = 0
         max_number_in_color = 0
         for c in range(4):
