@@ -8,6 +8,8 @@ Example how to use flask to create a service for one or more players
 import logging
 
 from jass.player_service.player_service_app import PlayerServiceApp
+from jass.player.random_player_schieber import RandomPlayerSchieber
+from jass.player.stdin_player_schieber import StdinPlayerSchieber
 from my_jass.player.my_player import MyPlayer
 
 
@@ -30,5 +32,7 @@ def create_app():
 
     # add some players
     app.add_player('my_player', MyPlayer())
+    # app.add_player('stdin', StdinPlayerSchieber())
+    app.add_player('random', RandomPlayerSchieber())
 
     return app
