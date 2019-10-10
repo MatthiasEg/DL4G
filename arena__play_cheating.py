@@ -4,6 +4,8 @@
 #
 
 import logging
+
+from jass.arena.arena_cheating import ArenaCheating
 from jass.base.const import JASS_SCHIEBER_1000
 from jass.arena.arena import Arena
 from jass.arena.trump_selection_players_strategy import TrumpPlayerStrategy
@@ -19,14 +21,14 @@ def main():
     logging.basicConfig(level=logging.WARNING)
 
     # setup the arena
-    arena = Arena(jass_type=JASS_SCHIEBER_1000,
+    arena = ArenaCheating(jass_type=JASS_SCHIEBER_1000,
                   trump_strategy=TrumpPlayerStrategy(),
                   play_game_strategy=PlayNrRoundsStrategy(4))
     player = RandomPlayerSchieber()
     my_player = MyMCTSPlayer()
 
     arena.set_players(my_player, player, my_player, player)
-    arena.nr_games_to_play = 1
+    arena.nr_games_to_play = 2
     print('Playing {} games'.format(arena.nr_games_to_play))
     arena.play_all_games()
     total_games = arena.nr_wins_team_0 + arena.nr_wins_team_1 + arena.nr_draws

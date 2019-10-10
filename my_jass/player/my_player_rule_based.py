@@ -10,7 +10,7 @@ from jass.base.player_round import PlayerRound
 from jass.player.player import Player
 
 
-class MyPlayer(Player):
+class MyRulePlayer(Player):
     """
     Sample implementation of a player to play Jass.
     """
