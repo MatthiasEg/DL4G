@@ -28,7 +28,7 @@ class MyPlayer(Player):
         # select the trump with the largest number of cards
         # if there are two color with the same highest number of cards, it will calculate the values of each color
         # and define trump according to the highest color cards.
-        print("Hand", rnd.hand)
+        # print("Hand", rnd.hand)
 
         trump = 0
         max_number_in_color = 0
@@ -73,7 +73,7 @@ class MyPlayer(Player):
                     third_color_with_highest_number == 0:
                 trump = second_color_with_highest_number
 
-        print("defining trump as: ", trump)
+        # print("defining trump as: ", trump)
         return trump
 
     def calculateColorCardValues(self, possibletrumpcolor: int, rnd: PlayerRound) -> int:
