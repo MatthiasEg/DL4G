@@ -7,13 +7,11 @@ import logging
 
 from jass.arena.arena_cheating import ArenaCheating
 from jass.base.const import JASS_SCHIEBER_1000
-from jass.arena.arena import Arena
 from jass.arena.trump_selection_players_strategy import TrumpPlayerStrategy
 from jass.arena.play_game_nr_rounds_strategy import PlayNrRoundsStrategy
 from jass.player.random_player_schieber import RandomPlayerSchieber
 
 from my_jass.player.my_MCTS_player import MyMCTSPlayer
-from my_jass.player.my_player_rule_based import MyRulePlayer
 
 
 def main():
@@ -22,13 +20,13 @@ def main():
 
     # setup the arena
     arena = ArenaCheating(jass_type=JASS_SCHIEBER_1000,
-                  trump_strategy=TrumpPlayerStrategy(),
-                  play_game_strategy=PlayNrRoundsStrategy(4))
+                          trump_strategy=TrumpPlayerStrategy(),
+                          play_game_strategy=PlayNrRoundsStrategy(4))
     player = RandomPlayerSchieber()
     my_player = MyMCTSPlayer()
 
     arena.set_players(my_player, player, my_player, player)
-    arena.nr_games_to_play = 2
+    arena.nr_games_to_play = 1000
     print('Playing {} games'.format(arena.nr_games_to_play))
     arena.play_all_games()
     total_games = arena.nr_wins_team_0 + arena.nr_wins_team_1 + arena.nr_draws
