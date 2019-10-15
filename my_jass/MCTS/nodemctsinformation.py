@@ -1,5 +1,6 @@
 from tokenize import String
 
+from jass.base.player_round_cheating import PlayerRoundCheating
 from jass.base.round import Round
 
 
@@ -29,10 +30,10 @@ class NodeMCTSInformation(object):
     def setVisitCount(self, visitcount: int):
         self._visitCount = visitcount
 
-    def getRound(self) -> Round:
+    def getRound(self) -> PlayerRoundCheating:
         return self._round
 
-    def setRound(self, round: Round):
+    def setRound(self, round: PlayerRoundCheating):
         self._round = round
 
     def getCard(self) -> int:
