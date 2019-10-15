@@ -58,13 +58,13 @@ class MyMCTSPlayer(Player):
 
     def monteCarloTreeSearch(self, round: PlayerRoundCheating):
         tree = Tree()
-        rootNode = tree.get_root_node()
-        rootNode.getNodeMCTSInformation().setPlayerNr(round.player)
-        rootNode.getNodeMCTSInformation().setRound(round)
+        root_node = tree.get_root_node()
+        root_node.getNodeMCTSInformation().setPlayerNr(round.player)
+        root_node.getNodeMCTSInformation().setRound(round)
 
-        timeForMCTSToRun = time.time() + 0.2
+        timeForMCTSToRun = time.time() + 0.01
         while time.time() < timeForMCTSToRun:
-            promisingnode = self.selectPromisingNode(rootNode)
+            promisingnode = self.selectPromisingNode(root_node)
 
             if promisingnode.getNodeMCTSInformation().getRound().nr_cards_in_trick < 4:
                 self.expandNode(promisingnode, round)
@@ -74,7 +74,7 @@ class MyMCTSPlayer(Player):
                 nodeToExplore = promisingnode.getRandomChild()
             winScore = self.simulateRound(nodeToExplore)
             self.backPropagation(nodeToExplore, round.player, winScore)
-        bestCardToBePlayed = rootNode.getChildWithMaxVisitCount().getNodeMCTSInformation().getCard()
+        bestCardToBePlayed = root_node.getChildWithMaxVisitCount().getNodeMCTSInformation().getCard()
         return bestCardToBePlayed
 
     def selectPromisingNode(self, rootnode: Node) -> Node:
@@ -94,7 +94,7 @@ class MyMCTSPlayer(Player):
             newNode.getNodeMCTSInformation().setCard(card)
             node.addChild(newNode)
 
-    def simulateRound(self, node: Node):
+    def simulateRound(self, node: Node):  # Random walk
         round = get_round_from_player_round(node.getNodeMCTSInformation().getRound(),
                                             node.getNodeMCTSInformation().getRound().hands)
         round.action_play_card(node.getNodeMCTSInformation().getCard())

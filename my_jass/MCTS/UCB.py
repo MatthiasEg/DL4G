@@ -21,7 +21,7 @@ class UCB:
         bestchildren = []
 
         child: Node
-        for child in node.get_children():  # type; State
+        for child in node.get_children():
             score = self.ucbValue(parentVisitCount, child.getNodeMCTSInformation().getWinScore(),
                                   node.getNodeMCTSInformation().getVisitCount())
             if score > bestscore:
