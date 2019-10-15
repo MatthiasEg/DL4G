@@ -62,7 +62,7 @@ class MyMCTSPlayer(Player):
         rootNode.getNodeMCTSInformation().setPlayerNr(round.player)
         rootNode.getNodeMCTSInformation().setRound(round)
 
-        timeForMCTSToRun = time.time() + 0.02
+        timeForMCTSToRun = time.time() + 0.2
         while time.time() < timeForMCTSToRun:
             promisingnode = self.selectPromisingNode(rootNode)
 
