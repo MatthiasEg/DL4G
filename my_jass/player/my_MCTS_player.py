@@ -81,7 +81,7 @@ class MyMCTSPlayer(Player):
         node = rootnode
         if len(node.get_children()) != 0:
             ucb = UCB()
-            ucb.findBestUCBNode(node)
+            node = ucb.findBestUCBNode(node)
         return node
 
     def expandNode(self, node: Node, round: PlayerRoundCheating):
