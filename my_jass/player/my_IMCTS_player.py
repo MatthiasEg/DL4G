@@ -6,17 +6,19 @@ import time
 
 import numpy as np
 from jass.base.const import color_masks
+from jass.base.player_round import PlayerRound
 from jass.base.player_round_cheating import PlayerRoundCheating
 from jass.base.round_factory import get_round_from_player_round
 from jass.player.player import Player
 
+from my_jass.IMCTS.Sampler import Sampler
 from my_jass.MCTS.UCB import UCB
 from my_jass.MCTS.node import Node
 from my_jass.MCTS.tree import Tree
 from my_jass.player.MyPlayer import MyPlayer
 
 
-class MyMCTSPlayer(Player):
+class MyIMCTSPlayer(Player):
     """
     Sample implementation of a player to play Jass.
     """
@@ -42,7 +44,7 @@ class MyMCTSPlayer(Player):
                 trump = c
         return trump
 
-    def play_card(self, rnd: PlayerRoundCheating) -> int:
+    def play_card(self, rnd: PlayerRound) -> int:
         """
         Player returns a card to play based on the given round information.
 
@@ -56,13 +58,14 @@ class MyMCTSPlayer(Player):
         bestCard = self.monteCarloTreeSearch(rnd)
         return bestCard
 
-    def monteCarloTreeSearch(self, round: PlayerRoundCheating):
+    def monteCarloTreeSearch(self, round: PlayerRound):
+        round = Sampler.sample(round)
         tree = Tree()
         root_node = tree.get_root_node()
         root_node.getNodeMCTSInformation().setPlayerNr(round.player)
         root_node.getNodeMCTSInformation().setRound(round)
 
-        timeForMCTSToRun = time.time() + 1
+        timeForMCTSToRun = time.time() + 0.2
         while time.time() < timeForMCTSToRun:
             promising_node = self.select_promising_node(root_node)
 
