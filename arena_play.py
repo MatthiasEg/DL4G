@@ -10,7 +10,7 @@ from jass.arena.trump_selection_players_strategy import TrumpPlayerStrategy
 from jass.arena.play_game_nr_rounds_strategy import PlayNrRoundsStrategy
 from jass.player.random_player_schieber import RandomPlayerSchieber
 
-from my_jass.player.my_IMCTS_player import MyIMCTSPlayer
+from my_jass.player.my_IMCTS_player_SL_trump import MyIMCTSPlayer
 from my_jass.player.my_MCTS_player import MyMCTSPlayer
 from my_jass.player.my_player_rule_based import MyRulePlayer
 
