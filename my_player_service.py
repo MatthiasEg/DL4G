@@ -35,3 +35,7 @@ def create_app():
     app.add_player('random', RandomPlayerSchieber())
 
     return app
+
+
+if __name__ == '__main__':
+   create_app()
