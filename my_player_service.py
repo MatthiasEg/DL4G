@@ -7,13 +7,9 @@ Example how to use flask to create a service for one or more players
 """
 import logging
 
-from flask import Flask
 from jass.player_service.player_service_app import PlayerServiceApp
 from jass.player.random_player_schieber import RandomPlayerSchieber
-
 from my_jass.player.MyPlayer import MyPlayer
-
-# app = Flask(__name__)
 
 
 def create_app():
@@ -39,7 +35,3 @@ def create_app():
     app.add_player('random', RandomPlayerSchieber())
 
     return app
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
