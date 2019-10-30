@@ -10,9 +10,10 @@ import logging
 from flask import Flask
 from jass.player_service.player_service_app import PlayerServiceApp
 from jass.player.random_player_schieber import RandomPlayerSchieber
-from my_jass.player.my_IMCTS_player_SL_trump import MyIMCTSPlayer
 
-app = Flask(__name__)
+from my_jass.player.MyPlayer import MyPlayer
+
+# app = Flask(__name__)
 
 
 def create_app():
@@ -27,18 +28,18 @@ def create_app():
     logging.basicConfig(level=logging.DEBUG)
 
     # create and configure the app
-    application = PlayerServiceApp('my_player_service')
+    app = PlayerServiceApp('my_player_service')
 
     # you could use a configuration file to load additional variables
     # app.config.from_pyfile('my_player_service.cfg', silent=False)
 
     # add some players
-    application.add_player('my_Player', MyIMCTSPlayer())
+    app.add_player('my_player', MyPlayer())
     # app.add_player('stdin', StdinPlayerSchieber())
-    application.add_player('random', RandomPlayerSchieber())
+    app.add_player('random', RandomPlayerSchieber())
 
-    return application
+    return app
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
