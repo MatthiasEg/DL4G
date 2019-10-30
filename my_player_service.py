@@ -33,7 +33,7 @@ def create_app():
     # app.config.from_pyfile('my_player_service.cfg', silent=False)
 
     # add some players
-    app.add_player('my_player', MyIMCTSPlayer())
+    app.add_player('my_IMCTS_player_SL_trump', MyIMCTSPlayer())
     # app.add_player('stdin', StdinPlayerSchieber())
     app.add_player('random', RandomPlayerSchieber())
 
