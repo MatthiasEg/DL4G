@@ -12,9 +12,10 @@ from jass.player_service.player_service_app import PlayerServiceApp
 from jass.player.random_player_schieber import RandomPlayerSchieber
 from my_jass.player.my_IMCTS_player_SL_trump import MyIMCTSPlayer
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
 
+@app.route('/')
 def create_app():
     """
     This is the factory method for flask. It is automatically detected when flask is run, but we must tell flask
@@ -40,5 +41,5 @@ def create_app():
     return app
 
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
