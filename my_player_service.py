@@ -15,7 +15,6 @@ from my_jass.player.my_IMCTS_player_SL_trump import MyIMCTSPlayer
 app = Flask(__name__)
 
 
-@app.route('/')
 def create_app():
     """
     This is the factory method for flask. It is automatically detected when flask is run, but we must tell flask
@@ -28,17 +27,17 @@ def create_app():
     logging.basicConfig(level=logging.DEBUG)
 
     # create and configure the app
-    app = PlayerServiceApp('my_player_service')
+    application = PlayerServiceApp('my_player_service')
 
     # you could use a configuration file to load additional variables
     # app.config.from_pyfile('my_player_service.cfg', silent=False)
 
     # add some players
-    app.add_player('my_Player', MyIMCTSPlayer())
+    application.add_player('my_Player', MyIMCTSPlayer())
     # app.add_player('stdin', StdinPlayerSchieber())
-    app.add_player('random', RandomPlayerSchieber())
+    application.add_player('random', RandomPlayerSchieber())
 
-    return app
+    return application
 
 
 if __name__ == '__main__':
