@@ -17,21 +17,20 @@ from my_jass.MCTS.tree import Tree
 from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
 
+
 class MyIMCTSPlayerMLTrump(Player):
     """
     Sample implementation of a player to play Jass.
     """
-
+    graph = None
 
     def __init__(self):
         # path is relative to working directory(directory where arena-class-file is situated)
-        global graph
-        with graph.as_default():
-            self.model = tf.keras.models.load_model('my_jass/models/trump_model_V1.h5')
-            graph = tf.get_default_graph()
-            self.model._make_predict_function()
+        self.model = tf.keras.models.load_model('my_jass/models/final_bot_trump_model_V4.h5')
+        self.graph = tf.compat.v1.get_default_graph()
+        self.model._make_predict_function()
 
-    def select_trump(self, rnd: PlayerRoundCheating) -> int:
+    def select_trump(self, rnd: PlayerRound) -> int:
         """
         Player chooses a trump based on the given round information.
 
@@ -46,7 +45,8 @@ class MyIMCTSPlayerMLTrump(Player):
         else:
             forehand = 1
         arr = np.array([np.append(rnd.hand, forehand)])
-        trump = self.model.predict(arr)
+        with self.graph.as_default():
+            trump = self.model.predict(arr)
 
         choice = np.argmax(trump)
         # 6 is used in ml for PUSH, but doesn't get translated to 10,
