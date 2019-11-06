@@ -10,7 +10,6 @@ from jass.base.player_round import PlayerRound
 from jass.base.player_round_cheating import PlayerRoundCheating
 from jass.base.round_factory import get_round_from_player_round
 from jass.player.player import Player
-from tensorflow_core.python.keras.models import load_model
 
 from my_jass.IMCTS.Sampler import Sampler
 from my_jass.MCTS.UCB import UCB
@@ -24,9 +23,6 @@ class MyIMCTSPlayerRulesTrump(Player):
     Sample implementation of a player to play Jass.
     """
 
-    def __init__(self):
-        # path is relative to working directory(directory where arena-class-file is situated)
-        self.model = load_model('my_jass/models/trump_model_V1.h5')
 
     def select_trump(self, rnd: PlayerRoundCheating) -> int:
         """
