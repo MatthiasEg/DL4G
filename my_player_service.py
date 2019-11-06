@@ -35,7 +35,7 @@ def create_app():
     # add some players
     app.add_player('my_player', MyPlayer())
     app.add_player('my_IMCTS_player', MyIMCTSPlayer())
-    app.add_player('my_IMCTS_MLTrump_player', MyIMCTSPlayerMLTrump())
+    # app.add_player('my_IMCTS_MLTrump_player', MyIMCTSPlayerMLTrump())
     app.add_player('my_IMCTS_RuleTrump_player', MyIMCTSPlayerRulesTrump())
     app.add_player('random', RandomPlayerSchieber())
 

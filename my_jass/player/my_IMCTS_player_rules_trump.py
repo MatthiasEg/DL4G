@@ -111,7 +111,7 @@ class MyIMCTSPlayerRulesTrump(Player):
         root_node.getNodeMCTSInformation().setPlayerNr(round.player)
         root_node.getNodeMCTSInformation().setRound(round)
 
-        time_for_mcts_to_run = time.time() + 0.2
+        time_for_mcts_to_run = time.time() + 0.5
         while time.time() < time_for_mcts_to_run:
             promising_node = self.__select_promising_node(root_node)
 
