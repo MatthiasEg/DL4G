@@ -5,19 +5,17 @@
 import time
 
 import numpy as np
-from jass.base.const import color_masks
 from jass.base.player_round import PlayerRound
 from jass.base.player_round_cheating import PlayerRoundCheating
 from jass.base.round_factory import get_round_from_player_round
 from jass.player.player import Player
-from tensorflow_core.python.keras.models import load_model
 
 from my_jass.IMCTS.Sampler import Sampler
 from my_jass.MCTS.UCB import UCB
 from my_jass.MCTS.node import Node
 from my_jass.MCTS.tree import Tree
 from my_jass.player.MyPlayer import MyPlayer
-
+import tensorflow as tf
 
 class MyIMCTSPlayerMLTrump(Player):
     """
@@ -26,7 +24,7 @@ class MyIMCTSPlayerMLTrump(Player):
 
     def __init__(self):
         # path is relative to working directory(directory where arena-class-file is situated)
-        self.model = load_model('my_jass/models/trump_model_V1.h5')
+        self.model = tf.keras.models.load_model('my_jass/models/trump_model_V1.h5')
 
     def select_trump(self, rnd: PlayerRoundCheating) -> int:
         """

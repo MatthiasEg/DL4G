@@ -11,7 +11,6 @@ from jass.arena.play_game_nr_rounds_strategy import PlayNrRoundsStrategy
 from jass.player.random_player_schieber import RandomPlayerSchieber
 
 from my_jass.player.my_IMCTS_player_ml_trump import MyIMCTSPlayerMLTrump
-from player.my_IMCTS_player_rules_trump import MyIMCTSPlayerRulesTrump
 
 
 def main():
@@ -26,7 +25,7 @@ def main():
     my_player = MyIMCTSPlayerMLTrump()
 
     arena.set_players(my_player, player, my_player, player)
-    arena.nr_games_to_play = 10
+    arena.nr_games_to_play = 1
     print('Playing {} games'.format(arena.nr_games_to_play))
     arena.play_all_games()
     total_games = arena.nr_wins_team_0 + arena.nr_wins_team_1 + arena.nr_draws
