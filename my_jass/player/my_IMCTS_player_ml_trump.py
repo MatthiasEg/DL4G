@@ -22,9 +22,11 @@ class MyIMCTSPlayerMLTrump(Player):
     Sample implementation of a player to play Jass.
     """
 
+
     def __init__(self):
         # path is relative to working directory(directory where arena-class-file is situated)
         self.model = tf.keras.models.load_model('my_jass/models/trump_model_V1.h5')
+        self.model._make_predict_function()
 
     def select_trump(self, rnd: PlayerRoundCheating) -> int:
         """
