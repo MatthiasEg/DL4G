@@ -9,6 +9,7 @@ from jass.base.player_round import PlayerRound
 from jass.base.player_round_cheating import PlayerRoundCheating
 from jass.base.round_factory import get_round_from_player_round
 from jass.player.player import Player
+from keras.backend import clear_session
 
 from my_jass.IMCTS.Sampler import Sampler
 from my_jass.MCTS.UCB import UCB
@@ -18,6 +19,7 @@ from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
 
 
+
 class MyIMCTSPlayerMLTrump(Player):
     """
     Sample implementation of a player to play Jass.
@@ -25,9 +27,11 @@ class MyIMCTSPlayerMLTrump(Player):
     graph = None
 
     def __init__(self):
+        clear_session()
+
         # path is relative to working directory(directory where arena-class-file is situated)
-        self.model = tf.keras.models.load_model('my_jass/models/final_bot_trump_model_V4.h5')
-        self.graph = tf.compat.v1.get_default_graph()
+        self.model = tf.keras.models.load_model("my_jass/models/final_bot_trump_model_V4.h5")
+        
         self.model._make_predict_function()
 
     def select_trump(self, rnd: PlayerRound) -> int:
@@ -45,8 +49,8 @@ class MyIMCTSPlayerMLTrump(Player):
         else:
             forehand = 1
         arr = np.array([np.append(rnd.hand, forehand)])
-        with self.graph.as_default():
-            trump = self.model.predict(arr)
+
+        trump = self.model.predict(arr)
 
         choice = np.argmax(trump)
         # 6 is used in ml for PUSH, but doesn't get translated to 10,
