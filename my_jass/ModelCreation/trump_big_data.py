@@ -39,7 +39,7 @@ data = pd.concat(
      data16, data17, data18, data19],
     axis=0, ignore_index=True)
 
-data = data.head(1000)
+# data = data.head(1000)
 
 # print(data.shape)
 
@@ -78,7 +78,7 @@ model.compile(loss='categorical_crossentropy',
               optimizer='sgd',
               metrics=['accuracy'])
 y_categorical = keras.utils.to_categorical(y_train)
-history = model.fit(x_train, y_categorical, validation_split=0.20, epochs=500, batch_size=10000)
+history = model.fit(x_train, y_categorical, validation_split=0.20, epochs=50, batch_size=100)
 
 y_categorical_test = keras.utils.to_categorical(y_test)
 print(model.evaluate(x_test, y_categorical_test))
@@ -99,4 +99,4 @@ plt.legend(['Train', 'Val'], loc='upper left')
 plt.show()
 
 # model.save(path_to_train_data / "deep_trump_model_v4.h5")
-model.save("models/deep_trump_model_v4.h5")
+model.save("models/matt/deep_trump_model_v4.h5")
