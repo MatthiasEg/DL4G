@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 from sklearn.model_selection import train_test_split
+from tensorflow_core.python.keras.saving.save import load_model
+
 
 path_to_train_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\train\\output")
 path_to_test_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\test\\trump_csv")
@@ -72,15 +74,13 @@ x_train, x_test, y_train, y_test = train_test_split(data[feature_columns], data.
 print(x_train)
 print(y_train)
 
-model = keras.Sequential()
-model.add(keras.layers.Dense(22, activation='relu', input_shape=[37]))
-model.add(keras.layers.Dense(22, activation='relu'))
-model.add(keras.layers.Dropout(rate=0.05))
-model.add(keras.layers.Dense(22, activation='relu'))
-model.add(keras.layers.Dense(22, activation='relu'))
-model.add(keras.layers.Dense(7, activation='softmax'))
+
+model = load_model("./models/matt/deep_trump_model_v4.h5")
+
+
+
 model.compile(loss='categorical_crossentropy',
-              optimizer='sgd',
+              optimizer='adam',
               metrics=['accuracy'])
 y_categorical = keras.utils.to_categorical(y_train)
 history = model.fit(x_train, y_categorical, validation_split=0.20, epochs=100, batch_size=10000)
@@ -104,4 +104,4 @@ plt.legend(['Train', 'Val'], loc='upper left')
 plt.show()
 
 # model.save(path_to_train_data / "deep_trump_model_v5.h5")
-model.save("models/matt/deep_trump_model_v5.h5")
+model.save("models/matt/deep_trump_model_v4_refitted_adam.h5")
