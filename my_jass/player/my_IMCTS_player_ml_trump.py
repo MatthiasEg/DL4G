@@ -45,7 +45,9 @@ class MyIMCTSPlayerMLTrump(Player):
             forehand = 1
         arr = np.array([np.append(rnd.hand, forehand)])
 
-        trump = self.model.predict(arr)
+        graph = tf.get_default_graph()
+        with graph.as_default():
+            trump = self.model.predict(arr)
 
         choice = np.argmax(trump)
 
