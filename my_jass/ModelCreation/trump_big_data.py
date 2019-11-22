@@ -1,11 +1,9 @@
-import numpy as np
-import tensorflow as tf
-from keras.layers import Dropout
-from tensorflow import keras
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import pandas as pd
-from pathlib import Path
 from sklearn.model_selection import train_test_split
+from tensorflow import keras
 
 path_to_train_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\train\\output")
 path_to_test_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\test\\trump_csv")

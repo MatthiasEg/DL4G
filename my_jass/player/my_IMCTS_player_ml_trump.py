@@ -17,6 +17,7 @@ from my_jass.MCTS.node import Node
 from my_jass.MCTS.tree import Tree
 from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
+from tensorflow_core.python.keras.saving.save import load_model
 
 
 class MyIMCTSPlayerMLTrump(Player):
@@ -27,7 +28,7 @@ class MyIMCTSPlayerMLTrump(Player):
 
     def __init__(self):
         # path is relative to working directory(directory where arena-class-file is situated)
-        self.model = tf.keras.models.load_model("my_jass/ModelCreation/models/matt/deep_trump_model_v1.h5")
+        self.model = load_model("my_jass/ModelCreation/models/matt/deep_trump_model_v1.h5")
 
     def select_trump(self, rnd: PlayerRound) -> int:
         """
@@ -45,9 +46,7 @@ class MyIMCTSPlayerMLTrump(Player):
             forehand = 1
         arr = np.array([np.append(rnd.hand, forehand)])
 
-        graph = tf.get_default_graph()
-        with graph.as_default():
-            trump = self.model.predict(arr)
+        trump = self.model.predict(arr)
 
         choice = np.argmax(trump)
 
