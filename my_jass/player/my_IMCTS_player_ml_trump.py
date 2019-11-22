@@ -26,11 +26,8 @@ class MyIMCTSPlayerMLTrump(Player):
     graph = None
 
     def __init__(self):
-        clear_session()
-
         # path is relative to working directory(directory where arena-class-file is situated)
         self.model = tf.keras.models.load_model("my_jass/ModelCreation/models/matt/deep_trump_model_v1.h5")
-        self.model._make_predict_function()
 
     def select_trump(self, rnd: PlayerRound) -> int:
         """
