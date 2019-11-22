@@ -19,7 +19,6 @@ from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
 
 
-
 class MyIMCTSPlayerMLTrump(Player):
     """
     Sample implementation of a player to play Jass.
@@ -30,8 +29,8 @@ class MyIMCTSPlayerMLTrump(Player):
         clear_session()
 
         # path is relative to working directory(directory where arena-class-file is situated)
-        self.model = tf.keras.models.load_model("my_jass/models/final_bot_trump_model_V4.h5")
-        
+        self.model = tf.keras.models.load_model("my_jass/ModelCreation/models/matt/deep_trump_model_v1.h5")
+
         self.model._make_predict_function()
 
     def select_trump(self, rnd: PlayerRound) -> int:
@@ -53,10 +52,11 @@ class MyIMCTSPlayerMLTrump(Player):
         trump = self.model.predict(arr)
 
         choice = np.argmax(trump)
-        # 6 is used in ml for PUSH, but doesn't get translated to 10,
-        # so this hack is necessary
-        if choice == 6:
-            choice = 10
+
+        if choice == 6 and forehand == 0:
+            trump = np.delete(trump, np.argmax(trump))
+            choice = np.argmax(trump)
+
         return choice
 
     def play_card(self, rnd: PlayerRound) -> int:
