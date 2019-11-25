@@ -18,9 +18,6 @@ from my_jass.MCTS.node import Node
 from my_jass.MCTS.tree import Tree
 from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
-from tensorflow_core.python.keras.saving.save import load_model
-
-
 
 class MyIMCTSPlayerMLTrump(Player):
     """
@@ -83,7 +80,7 @@ class MyIMCTSPlayerMLTrump(Player):
         root_node.getNodeMCTSInformation().setPlayerNr(round.player)
         root_node.getNodeMCTSInformation().setRound(round)
 
-        time_for_mcts_to_run = time.time() + 0.01
+        time_for_mcts_to_run = time.time() + 0.02
         while time.time() < time_for_mcts_to_run:
             promising_node = self.__select_promising_node(root_node)
 
