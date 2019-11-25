@@ -51,11 +51,11 @@ class MyIMCTSPlayerMLTrump(Player):
             set_session(self.sess)
             trump = self.model.predict(arr)
 
-        choice = np.argmax(trump)
+        choice = int(np.argmax(trump))
 
         if choice == 6 and forehand == 0:
             trump = np.delete(trump, np.argmax(trump))
-            choice = np.argmax(trump)
+            choice = int(np.argmax(trump))
 
         return choice
 
