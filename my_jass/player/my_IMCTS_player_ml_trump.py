@@ -9,7 +9,8 @@ from jass.base.player_round import PlayerRound
 from jass.base.player_round_cheating import PlayerRoundCheating
 from jass.base.round_factory import get_round_from_player_round
 from jass.player.player import Player
-from keras.backend import clear_session
+from tensorflow.python.keras.backend import set_session
+from tensorflow.python.keras.saving import load_model
 
 from my_jass.IMCTS.Sampler import Sampler
 from my_jass.MCTS.UCB import UCB
@@ -19,6 +20,7 @@ from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
 
 
+
 class MyIMCTSPlayerMLTrump(Player):
     """
     Sample implementation of a player to play Jass.
@@ -26,12 +28,10 @@ class MyIMCTSPlayerMLTrump(Player):
     graph = None
 
     def __init__(self):
-        clear_session()
-
-        # path is relative to working directory(directory where arena-class-file is situated)
-        self.model = tf.keras.models.load_model("my_jass/ModelCreation/models/matt/deep_trump_model_v1.h5")
-
-        self.model._make_predict_function()
+        self.sess = tf.Session()
+        self.graph = tf.get_default_graph()
+        set_session(self.sess)
+        self.model = load_model('my_jass/ModelCreation/models/matt/deep_trump_model_v4_refitted_adam.h5')
 
     def select_trump(self, rnd: PlayerRound) -> int:
         """
@@ -49,7 +49,9 @@ class MyIMCTSPlayerMLTrump(Player):
             forehand = 1
         arr = np.array([np.append(rnd.hand, forehand)])
 
-        trump = self.model.predict(arr)
+        with self.graph.as_default():
+            set_session(self.sess)
+            trump = self.model.predict(arr)
 
         choice = np.argmax(trump)
 
