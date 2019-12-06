@@ -9,7 +9,8 @@ from jass.base.player_round import PlayerRound
 from jass.base.player_round_cheating import PlayerRoundCheating
 from jass.base.round_factory import get_round_from_player_round
 from jass.player.player import Player
-from keras.backend import clear_session
+from tensorflow.python.keras.backend import set_session
+from tensorflow.python.keras.saving import load_model
 
 from my_jass.IMCTS.Sampler import Sampler
 from my_jass.MCTS.UCB import UCB
@@ -17,8 +18,6 @@ from my_jass.MCTS.node import Node
 from my_jass.MCTS.tree import Tree
 from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
-from tensorflow_core.python.keras.saving.save import load_model
-
 
 class MyIMCTSPlayerMLTrump(Player):
     """
@@ -27,8 +26,10 @@ class MyIMCTSPlayerMLTrump(Player):
     graph = None
 
     def __init__(self):
-        # path is relative to working directory(directory where arena-class-file is situated)
-        self.model = load_model("my_jass/ModelCreation/models/matt/deep_trump_model_v1.h5")
+        self.sess = tf.Session()
+        self.graph = tf.get_default_graph()
+        set_session(self.sess)
+        self.model = load_model('my_jass/ModelCreation/models/matt/deep_trump_model_v4_refitted_adam.h5')
 
     def select_trump(self, rnd: PlayerRound) -> int:
         """
@@ -46,13 +47,15 @@ class MyIMCTSPlayerMLTrump(Player):
             forehand = 1
         arr = np.array([np.append(rnd.hand, forehand)])
 
-        trump = self.model.predict(arr)
+        with self.graph.as_default():
+            set_session(self.sess)
+            trump = self.model.predict(arr)
 
-        choice = np.argmax(trump)
+        choice = int(np.argmax(trump))
 
         if choice == 6 and forehand == 0:
             trump = np.delete(trump, np.argmax(trump))
-            choice = np.argmax(trump)
+            choice = int(np.argmax(trump))
 
         return choice
 
@@ -77,7 +80,7 @@ class MyIMCTSPlayerMLTrump(Player):
         root_node.getNodeMCTSInformation().setPlayerNr(round.player)
         root_node.getNodeMCTSInformation().setRound(round)
 
-        time_for_mcts_to_run = time.time() + 0.01
+        time_for_mcts_to_run = time.time() + 0.02
         while time.time() < time_for_mcts_to_run:
             promising_node = self.__select_promising_node(root_node)
 
