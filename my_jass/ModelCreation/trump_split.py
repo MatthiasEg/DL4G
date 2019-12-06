@@ -5,15 +5,23 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
 
-path_to_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\test\\filtered\\csv")
+path_to_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\train\\filtered\\csv")
 
 # train data
 data1 = pd.read_csv(path_to_data / '0001.csv', header=None)
 data2 = pd.read_csv(path_to_data / '0002.csv', header=None)
 data3 = pd.read_csv(path_to_data / '0003.csv', header=None)
+data4 = pd.read_csv(path_to_data / '0004.csv', header=None)
+data5 = pd.read_csv(path_to_data / '0005.csv', header=None)
+data6 = pd.read_csv(path_to_data / '0006.csv', header=None)
+data7 = pd.read_csv(path_to_data / '0007.csv', header=None)
+data8 = pd.read_csv(path_to_data / '0008.csv', header=None)
+data9 = pd.read_csv(path_to_data / '0009.csv', header=None)
+data10 = pd.read_csv(path_to_data / '0010.csv', header=None)
+data11 = pd.read_csv(path_to_data / '0011.csv', header=None)
 
 data = pd.concat(
-    [data1, data2, data3],
+    [data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11],
     axis=0, ignore_index=True)
 
 # data = data.head(1000)
@@ -40,8 +48,9 @@ trump = ['trump']
 data.columns = cards + forehand + trump
 feature_columns = cards + forehand
 
-x_train, x_test, y_train, y_test = train_test_split(data[feature_columns], data.trump, test_size=0.2,
-                                                    stratify=data.trump, random_state=42)
+x_train = data[feature_columns]
+y_train = data[trump]
+
 print(x_train)
 print(y_train)
 
@@ -55,24 +64,24 @@ model.compile(loss='categorical_crossentropy',
               optimizer='sgd',
               metrics=['accuracy'])
 y_categorical = keras.utils.to_categorical(y_train)
-history = model.fit(x_train, y_categorical, validation_split=0.20, epochs=500, batch_size=1000)
+history = model.fit(x_train, y_categorical, epochs=500, batch_size=10000)
 
-y_categorical_test = keras.utils.to_categorical(y_test)
-print(model.evaluate(x_test, y_categorical_test))
-
-plt.plot(history.history['loss'])
-plt.title('Loss')
-plt.xlabel('epoch')
-plt.ylabel('loss')
-plt.show()
-
-plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
-plt.title('Accuracy')
-plt.xlabel('epoch')
-plt.ylabel('acc')
-plt.legend(['Train', 'Val'], loc='upper left')
-
-plt.show()
-
-model.save("models/matt/filtered_deep_trump_model_v1.h5")
+# y_categorical_test = keras.utils.to_categorical(y_test)
+# print(model.evaluate(x_test, y_categorical_test))
+#
+# plt.plot(history.history['loss'])
+# plt.title('Loss')
+# plt.xlabel('epoch')
+# plt.ylabel('loss')
+# plt.show()
+#
+# plt.plot(history.history['accuracy'])
+# plt.plot(history.history['val_accuracy'])
+# plt.title('Accuracy')
+# plt.xlabel('epoch')
+# plt.ylabel('acc')
+# plt.legend(['Train', 'Val'], loc='upper left')
+#
+# plt.show()
+#
+# model.save("models/matt/filtered_deep_trump_model_v1.h5")

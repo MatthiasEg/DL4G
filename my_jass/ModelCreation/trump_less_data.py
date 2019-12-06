@@ -26,6 +26,7 @@ trump = ['trump']
 
 data.columns = cards + forehand + user + trump
 data_columns_train = cards + forehand
+
 data.drop('user', axis='columns', inplace=True)
 print(data.head())
 
