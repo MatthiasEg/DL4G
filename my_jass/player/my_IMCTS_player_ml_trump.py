@@ -19,6 +19,7 @@ from my_jass.MCTS.tree import Tree
 from my_jass.player.MyPlayer import MyPlayer
 import tensorflow as tf
 
+
 class MyIMCTSPlayerMLTrump(Player):
     """
     Sample implementation of a player to play Jass.
@@ -29,7 +30,8 @@ class MyIMCTSPlayerMLTrump(Player):
         self.sess = tf.Session()
         self.graph = tf.get_default_graph()
         set_session(self.sess)
-        self.model = load_model('my_jass/ModelCreation/models/matt/deep_trump_model_v4_refitted_adam.h5')
+        self.model = load_model('my_jass/ModelCreation/models/dave'
+                                '/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
 
     def select_trump(self, rnd: PlayerRound) -> int:
         """
