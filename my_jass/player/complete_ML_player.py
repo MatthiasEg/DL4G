@@ -4,12 +4,13 @@
 #
 import time
 
+import time
+
 import numpy as np
 from jass.base.player_round import PlayerRound
 from jass.player.player import Player
-from keras.engine.saving import load_model
 from tensorflow.python.keras.backend import set_session
-
+from tensorflow.python.keras.saving import load_model
 import tensorflow as tf
 
 
@@ -23,10 +24,8 @@ class CompleteMLPlayer(Player):
         self.sess = tf.Session()
         self.graph = tf.get_default_graph()
         set_session(self.sess)
-        self.trump_model = load_model('my_jass/ModelCreation/models/dave'
-                                      '/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
-        self.card_model = load_model('my_jass/ModelCreation/models/dave'
-                                     '/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
+        self.trump_model = load_model('my_jass/ModelCreation/models/dave/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
+        self.card_model = load_model('my_jass/ModelCreation/models/dave/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
 
     def select_trump(self, rnd: PlayerRound) -> int:
         """
