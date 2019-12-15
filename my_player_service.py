@@ -9,12 +9,9 @@ import logging
 
 from jass.player_service.player_service_app import PlayerServiceApp
 from jass.player.random_player_schieber import RandomPlayerSchieber
-from my_jass.player.MyPlayer import MyPlayer
-from my_jass.player.my_IMCTS_player_SL_trump import MyIMCTSPlayer
 
 from my_jass.player.complete_ML_player import CompleteMLPlayer
 from my_jass.player.my_IMCTS_player_ml_trump import MyIMCTSPlayerMLTrump
-from my_jass.player.my_IMCTS_player_rules_trump import MyIMCTSPlayerRulesTrump
 
 
 def create_app():
