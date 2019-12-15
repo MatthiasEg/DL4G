@@ -11,6 +11,8 @@ from jass.player_service.player_service_app import PlayerServiceApp
 from jass.player.random_player_schieber import RandomPlayerSchieber
 from my_jass.player.MyPlayer import MyPlayer
 from my_jass.player.my_IMCTS_player_SL_trump import MyIMCTSPlayer
+
+from my_jass.player.complete_ML_player import CompleteMLPlayer
 from my_jass.player.my_IMCTS_player_ml_trump import MyIMCTSPlayerMLTrump
 from my_jass.player.my_IMCTS_player_rules_trump import MyIMCTSPlayerRulesTrump
 
@@ -33,10 +35,8 @@ def create_app():
     # app.config.from_pyfile('my_player_service.cfg', silent=False)
 
     # add some players
-    app.add_player('my_player', MyPlayer())
-    app.add_player('my_IMCTS_player', MyIMCTSPlayer())
-    app.add_player('my_IMCTS_MLTrump_player', MyIMCTSPlayerMLTrump())
-    app.add_player('my_IMCTS_RuleTrump_player', MyIMCTSPlayerRulesTrump())
+    app.add_player('imcts_mltrump_player', MyIMCTSPlayerMLTrump())
     app.add_player('random', RandomPlayerSchieber())
+    app.add_player('ml_player', CompleteMLPlayer())
 
     return app
