@@ -24,7 +24,8 @@ class CompleteMLPlayer(Player):
         self.sess = tf.Session()
         self.graph = tf.get_default_graph()
         set_session(self.sess)
-        self.trump_model = load_model('my_jass/ModelCreation/models/dave/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
+        self.trump_model = load_model(
+            'my_jass/ModelCreation/models/dave/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
         self.card_model = load_model('my_jass/ModelCreation/models/matt/card/card_model.h5')
 
     def select_trump(self, rnd: PlayerRound) -> int:
@@ -95,6 +96,11 @@ class CompleteMLPlayer(Player):
             cards = self.card_model.predict(total)
 
         choice = int(np.argmax(cards))
+
+        while hand[choice] is not 1:
+            cards = np.delete(cards, np.argmax(cards))
+            new_choice = int(np.argmax(cards))
+            choice = new_choice
 
         return choice
 
