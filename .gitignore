@@ -5,6 +5,9 @@
 .idea
 dist
 
+venv/
+
+
 # Python specific stuff
 *.pyc
 
