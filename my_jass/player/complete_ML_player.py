@@ -90,7 +90,7 @@ class CompleteMLPlayer(Player):
         # 6 elements
 
         # total 82 elements
-        total = np.concatenate((hand, cards_of_current_trick, player, trump), axis=0)
+        total = np.concatenate([hand, cards_of_current_trick, player, trump], axis=0)
 
         with self.graph.as_default():
             set_session(self.sess)

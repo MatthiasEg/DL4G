@@ -96,6 +96,15 @@ class MyIMCTSPlayerMLTrump(Player):
         best_card_to_be_played = root_node.getChildWithMaxVisitCount().getNodeMCTSInformation().getCard()
         return best_card_to_be_played
 
+
+
+
+
+
+
+
+
+
     def __select_promising_node(self, rootnode: Node) -> Node:
         node = rootnode
         if len(node.get_children()) != 0:
