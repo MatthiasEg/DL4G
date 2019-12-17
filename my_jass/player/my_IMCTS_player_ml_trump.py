@@ -72,28 +72,27 @@ class MyIMCTSPlayerMLTrump(Player):
             card to play, int encoded
         """
 
-        best_card = self.monteCarloTreeSearch(rnd)
-        return best_card
+        return self.monteCarloTreeSearch(rnd)
 
-    def monteCarloTreeSearch(self, round: PlayerRound):
-        round = Sampler.sample(round)
+    def monteCarloTreeSearch(self, rnd: PlayerRound):
+        rnd = Sampler.sample(rnd)
         tree = Tree()
         root_node = tree.get_root_node()
-        root_node.getNodeMCTSInformation().setPlayerNr(round.player)
-        root_node.getNodeMCTSInformation().setRound(round)
+        root_node.getNodeMCTSInformation().setPlayerNr(rnd.player)
+        root_node.getNodeMCTSInformation().setRound(rnd)
 
         time_for_mcts_to_run = time.time() + 0.02
         while time.time() < time_for_mcts_to_run:
             promising_node = self.__select_promising_node(root_node)
 
             if promising_node.getNodeMCTSInformation().getRound().nr_cards_in_trick < 4:
-                self.__expand_node(promising_node, round)
+                self.__expand_node(promising_node, rnd)
 
             node_to_explore = promising_node
             if len(promising_node.get_children()) > 0:
                 node_to_explore = promising_node.getRandomChild()  # random pick to be optimised
             win_score = self.__simulate_round(node_to_explore)
-            self.__backPropagation(node_to_explore, round.player, win_score)
+            self.__backPropagation(node_to_explore, rnd.player, win_score)
         best_card_to_be_played = root_node.getChildWithMaxVisitCount().getNodeMCTSInformation().getCard()
         return best_card_to_be_played
 
