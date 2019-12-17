@@ -32,8 +32,8 @@ def create_app():
     # app.config.from_pyfile('my_player_service.cfg', silent=False)
 
     # add some players
-    app.add_player('imcts_mltrump_player', MyIMCTSPlayerMLTrump())
+    app.add_player('myPlayer', MyIMCTSPlayerMLTrump())
     app.add_player('random', RandomPlayerSchieber())
-    app.add_player('ml_player', CompleteMLPlayer())
+    # app.add_player('ml_player', CompleteMLPlayer())
 
     return app
