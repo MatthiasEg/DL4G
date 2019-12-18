@@ -32,7 +32,7 @@ def create_app():
     # app.config.from_pyfile('my_player_service.cfg', silent=False)
 
     # add some players
-    app.add_player('DeepLearningForNothing', CompleteMLPlayer())
+    app.add_player('DeepLearningForNothing', MyIMCTSPlayerMLTrump())
     app.add_player('random', RandomPlayerSchieber())
 
     return app
