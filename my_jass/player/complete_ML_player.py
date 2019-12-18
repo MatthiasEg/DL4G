@@ -105,8 +105,11 @@ class CompleteMLPlayer(Player):
 
         while valid_cards[choice] != 1:
                 cards = np.delete(cards, np.argmax(cards))
-                new_choice = int(np.argmax(cards))
-                choice = new_choice
+                if len(cards) == 0:
+                    choice = np.argmax(valid_cards)
+                else:
+                    new_choice = int(np.argmax(cards))
+                    choice = new_choice
 
         return choice
 
