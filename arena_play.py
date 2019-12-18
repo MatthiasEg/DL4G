@@ -23,7 +23,7 @@ def main():
                   trump_strategy=TrumpPlayerStrategy(),
                   play_game_strategy=PlayNrRoundsStrategy(4))
     player = RandomPlayerSchieber()
-    my_player = MyIMCTSPlayerMLTrump()
+    my_player = CompleteMLPlayer()
 
     arena.set_players(my_player, player, my_player, player)
     arena.nr_games_to_play = 3

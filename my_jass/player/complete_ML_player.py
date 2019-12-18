@@ -101,6 +101,13 @@ class CompleteMLPlayer(Player):
 
         choice = int(np.argmax(cards))
 
+        valid_cards = rnd.get_valid_cards()
+
+        while valid_cards[choice] != 1:
+                cards = np.delete(cards, np.argmax(cards))
+                new_choice = int(np.argmax(cards))
+                choice = new_choice
+
         return choice
 
     def one_hot(self, number, size) -> np.array:
