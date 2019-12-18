@@ -26,7 +26,7 @@ class CompleteMLPlayer(Player):
         self.graph = tf.get_default_graph()
         set_session(self.sess)
         self.trump_model = load_model(
-            'my_jass/ModelCreation/models/dave/final_model_81_games_025_mean_03_std_06_with_schieben.h5')
+            'my_jass/ModelCreation/models/dave/final_model_82_games_025_mean_03_std_06_without_schieben.h5')
         self.card_model = load_model('my_jass/ModelCreation/models/matt/card/card_model_test.h5')
 
     def select_trump(self, rnd: PlayerRound) -> int:
@@ -50,10 +50,13 @@ class CompleteMLPlayer(Player):
             trump = self.trump_model.predict(arr)
 
         choice = int(np.argmax(trump))
+        percentage = trump[0][choice]
 
-        if choice == 6 and forehand == 0:
-            trump = np.delete(trump, np.argmax(trump))
-            choice = int(np.argmax(trump))
+        if percentage < 0.9 and forehand == 1:
+            choice = 6
+            return choice
+        else:
+            return choice
 
         return choice
 
