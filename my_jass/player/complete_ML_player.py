@@ -27,7 +27,7 @@ class CompleteMLPlayer(Player):
         set_session(self.sess)
         self.trump_model = load_model(
             'my_jass/ModelCreation/models/dave/final_model_82_games_025_mean_03_std_06_without_schieben.h5')
-        self.card_model = load_model('my_jass/ModelCreation/models/matt/card/card_model_test.h5')
+        self.card_model = load_model('my_jass/ModelCreation/models/matt/card/card_model_e120_b256_sgd__66_15.h5')
 
     def select_trump(self, rnd: PlayerRound) -> int:
         """
