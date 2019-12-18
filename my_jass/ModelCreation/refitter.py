@@ -1,67 +1,86 @@
-import numpy as np
-import tensorflow as tf
-from keras.layers import Dropout
 from tensorflow import keras
 import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 from sklearn.model_selection import train_test_split
-from tensorflow_core.python.keras.saving.save import load_model
+import numpy as np
+from tensorflow.keras.utils import to_categorical
+from datetime import datetime
+from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.optimizers import Adagrad, Adam
+from tensorflow.keras import regularizers
+import tensorflow as tf
 
+## define paths to data files
+from tensorflow_core.python.keras.saving import load_model
 
-path_to_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\test\\filtered\\csv")
+path_to_train_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\train\\filtered\\card\\csv")
+path_to_test_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\test\\filtered\\card\\csv")
+path_to_val_data = Path("C:\\Users\\matth\\Documents\\DL4G\\jass-data\\split\\val\\filtered\\card\\csv")
 
 # train data
-data1 = pd.read_csv(path_to_data / '0001.csv', header=None)
-data2 = pd.read_csv(path_to_data / '0002.csv', header=None)
-data3 = pd.read_csv(path_to_data / '0003.csv', header=None)
+data_train1 = pd.read_csv(path_to_train_data / '0001.csv', header=None)
+data_train2 = pd.read_csv(path_to_train_data / '0002.csv', header=None)
+data_train3 = pd.read_csv(path_to_train_data / '0003.csv', header=None)
+data_train4 = pd.read_csv(path_to_train_data / '0004.csv', header=None)
+data_val1 = pd.read_csv(path_to_val_data / '0001.csv', header=None)
+data_val2 = pd.read_csv(path_to_val_data / '0002.csv', header=None)
 
-data = pd.concat(
-    [data1, data2, data3],
-    axis=0, ignore_index=True)
+data_train = pd.concat([data_train1, data_train2, data_train3, data_train4, data_val1, data_val2], axis=0)
 
-# data = data.head(1000)
+# test data
+data_test1 = pd.read_csv(path_to_test_data / '0001.csv', header=None)
+data_test2 = pd.read_csv(path_to_train_data / '0002.csv', header=None)
 
-# print(data.shape)
+data_test = pd.concat([data_test1, data_test2])
 
-cards = [
-    # Diamonds
-    'DA', 'DK', 'DQ', 'DJ', 'D10', 'D9', 'D8', 'D7', 'D6',
-    # Hearts
-    'HA', 'HK', 'HQ', 'HJ', 'H10', 'H9', 'H8', 'H7', 'H6',
-    # Spades
-    'SA', 'SK', 'SQ', 'SJ', 'S10', 'S9', 'S8', 'S7', 'S6',
-    # Clubs
-    'CA', 'CK', 'CQ', 'CJ', 'C10', 'C9', 'C8', 'C7', 'C6'
-]
+# colums used for extracting x and y values. The same effect could be achieved with train_test_split-Method, but
+# since we already have different files, we dont need to split the files using this method.
+# data_X_columns = cards + forehand
+# data_Y_colums = trump
 
-# Forehand (yes = 1, no = 0)
-forehand = ['FH']
+x_train = data_train[data_train.columns[0:82]]
+y_train = data_train[data_train.columns[82]]
+print(x_train.head())
+print(y_train.head())
 
-user = ['user']
-trump = ['trump']
+x_test = data_test[data_test.columns[0:82]]
+y_test = data_test[data_test.columns[82]]
 
-data.columns = cards + forehand + trump
-feature_columns = cards + forehand
-
-x_train, x_test, y_train, y_test = train_test_split(data[feature_columns], data.trump, test_size=0.2,
-                                                    stratify=data.trump, random_state=42)
-print(x_train)
-print(y_train)
+# x_val = data_val[data_val.columns[0:82]]
+# y_val = data_val[data_val.columns[82]]
 
 
-model = load_model("./models/matt/filtered_deep_trump_model_v1.h5")
-
-
+model = load_model("./models/matt/card/card_model_e200_sgd_66.h5")
 
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
-y_categorical = keras.utils.to_categorical(y_train)
-history = model.fit(x_train, y_categorical, validation_split=0.20, epochs=2000, batch_size=10000)
+
+y_train_categorical = to_categorical(y_train)
+history = model.fit(x_train, y_train_categorical, epochs=120, batch_size=100)
+
 
 y_categorical_test = keras.utils.to_categorical(y_test)
 print(model.evaluate(x_test, y_categorical_test))
+
+y_test_categorical = to_categorical(y_test)
+print (model.evaluate(x_test, y_test_categorical))
+
+# plt.plot(history.history['loss'])
+# plt.title('Loss')
+# plt.xlabel('epoch')
+# plt.ylabel('loss')
+# plt.show()
+#
+# plt.plot(history.history['accuracy'])
+# plt.plot(history.history['val_accuracy'])
+# plt.title('Accuracy')
+# plt.xlabel('epoch')
+# plt.ylabel('acc')
+# plt.legend(['Train', 'Val'], loc='upper left')
 
 plt.plot(history.history['loss'])
 plt.title('Loss')
@@ -70,13 +89,11 @@ plt.ylabel('loss')
 plt.show()
 
 plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
 plt.title('Accuracy')
 plt.xlabel('epoch')
 plt.ylabel('acc')
-plt.legend(['Train', 'Val'], loc='upper left')
+plt.legend(['Train'], loc='upper left')
 
 plt.show()
 
-# model.save(path_to_train_data / "deep_trump_model_v5.h5")
-model.save("models/matt/deep_trump_model_v4_refitted_adam.h5")
+model.save("./models/matt/card/card_model_e200_sgd_66_refitted.h5")
