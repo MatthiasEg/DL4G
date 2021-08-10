@@ -96,6 +96,7 @@ plt.plot(history.history['accuracy'])
 plt.plot(history.history['val_accuracy'])
 plt.title('Accuracy')
 plt.xlabel('epoch')
+
 plt.ylabel('acc')
 plt.legend(['Train', 'Val'], loc='upper left')
 

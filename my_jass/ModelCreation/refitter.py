@@ -53,7 +53,9 @@ y_test = data_test[data_test.columns[82]]
 # y_val = data_val[data_val.columns[82]]
 
 
-model = load_model("./models/matt/card/card_model_e200_sgd_66.h5")
+model = load_model("./models/matt/card/best_card_model_68.h5")
+
+print(model.summary())
 
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
@@ -96,4 +98,4 @@ plt.legend(['Train'], loc='upper left')
 
 plt.show()
 
-model.save("./models/matt/card/card_model_e200_sgd_66_refitted.h5")
+model.save("./models/matt/card/model.h5")
